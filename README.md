@@ -1,113 +1,122 @@
-# Ex-06-Feature-Transformation
+# Ex-06 Feature Transformation
 
 ## AIM
-
 To read the given data and perform Feature Transformation process and save the data to a file.
 
-## EXPLANATION
-
-Feature Transformation is a technique by which we can boost our model performance. Feature transformation is a mathematical transformation in which we apply a mathematical formula to a particular column(feature) and transform the values which are useful for our further analysis.
-
 ## ALGORITHM
+### STEP 1
 
-### STEP 1:
 Read the given Data
 
-### STEP 2:
+### STEP 2
+
 Clean the Data Set using Data Cleaning Process
 
-### STEP 3:
-Apply Feature Transformation techniques to all the features of the data set
+### STEP 3
 
-### STEP 4:
-Print the transformed features
+Apply Feature Transformation techniques to all the feature of the data set
 
-## PROGRAM:
+### STEP 4
 
-```
-# NAME: Sathiya Narayanan G
-# REG NO: 2122212220049
+Save the data to the file
+
+## CODE
+
+import pandas as pd
+
+df=pd.read_csv('/content/Data_to_Transform.csv')
+
+df.head()
+
+df.isnull().sum()
 
 import numpy as np
-import pandas as pd
+
 import matplotlib.pyplot as plt
+
 import statsmodels.api as sm
+
 import scipy.stats as stats
+
 from sklearn.preprocessing import QuantileTransformer
 
-df=pd.read_csv("data_trans.csv")
-df
+sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
 
-sm.qqplot(df.HighlyPositiveSkew,fit=True,line='45')
 plt.show()
 
-sm.qqplot(df.HighlyNegativeSkew,fit=True,line='45')
+sm.qqplot(df['Highly Negative Skew'],fit=True,line='45')
+
 plt.show()
 
-sm.qqplot(df.ModeratePositiveSkew,fit=True,line='45')
+sm.qqplot(df['Moderate Positive Skew'],fit=True,line='45')
+
 plt.show()
 
-sm.qqplot(df.ModerateNegativeSkew,fit=True,line='45')
+sm.qqplot(df['Moderate Negative Skew'],fit=True,line='45')
+
 plt.show()
 
-df['HighlyPositiveSkew']=np.log(df.HighlyPositiveSkew)
-sm.qqplot(df.HighlyPositiveSkew,fit=True,line='45')
+df['Highly Positive Skew']=np.log(df['Highly Positive Skew'])
+
+sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
+
 plt.show()
 
-df['HighlyNegativeSkew']=np.log(df.HighlyNegativeSkew)
-sm.qqplot(df.HighlyPositiveSkew,fit=True,line='45')
+df['Highly Positive Skew']=1/df['Highly Positive Skew']
+
+sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
 plt.show()
 
-df['ModeratePositiveSkew_1'], parameters=stats.yeojohnson(df.ModeratePositiveSkew)
-sm.qqplot(df.ModeratePositiveSkew_1,fit=True,line='45')
-plt.show()
+df['Highly Positive Skew']=np.sqrt(df['Highly Positive Skew'])
 
-df['ModerateNegativeSkew_1'], parameters=stats.yeojohnson(df.ModerateNegativeSkew)
-sm.qqplot(df.ModerateNegativeSkew_1,fit=True,line='45')
+sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
+
 plt.show()
 
 from sklearn.preprocessing import PowerTransformer
-transformer=PowerTransformer("yeo-johnson")
-df['ModerateNegativeSkew_2']=pd.DataFrame(transformer.fit_transform(df[['ModerateNegativeSkew']]))
-sm.qqplot(df.ModerateNegativeSkew_2,fit=True,line='45')
+pt=PowerTransformer("yeo-johnson")
+
+df['Moderate Negative Skew']=pd.DataFrame(pt.fit_transform(df[['Moderate Negative Skew']]))
+
+sm.qqplot(df['Moderate Negative Skew'],fit=True,line='45')
+
 plt.show()
 
 from sklearn.preprocessing import QuantileTransformer
-qt= QuantileTransformer(output_distribution = 'normal')
-df['ModerateNegativeSkew_2']=pd.DataFrame(qt.fit_transform(df[['ModerateNegativeSkew']]))
 
-sm.qqplot(df.ModerateNegativeSkew_2,fit=True,line='45')
-plt.show()
+qt=QuantileTransformer(output_distribution='normal')
 
-df2=df.copy()
+df['Moderate Negative Skew']=pd.DataFrame(pt.fit_transform(df[['Moderate Negative Skew']]))
 
-df2['HighlyPositiveSkew']= 1/df2.HighlyPositiveSkew
-sm.qqplot(df2.HighlyPositiveSkew,fit=True,line='45')
+sm.qqplot(df['Moderate Negative Skew'],fit=True,line='45')
 
 plt.show()
-```
-
-## OUTPUT:
-![image](https://user-images.githubusercontent.com/94154683/197689770-3a3eaeb0-893e-44c8-8f68-44e32a2649b0.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197689814-3694160d-908f-4231-a0db-650ff010af04.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197689850-6e468f71-c5b0-47b8-ac0d-b867332e873f.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197689891-94aeffa0-8937-455c-871e-6c7ddfa8ff51.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197689932-daa0397d-917c-40e0-859b-62ce48cd7d8f.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197689974-df9a8993-a064-4a73-9564-0e9bb3b7d61e.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197690077-9970da20-7ff7-4b8b-bf25-0aa8478de4ea.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197690168-8e6c3d09-2046-4f34-b404-2f3a55de7781.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197690206-127a5a92-b62f-4456-9d54-61b3fc83e642.png)
-
-![image](https://user-images.githubusercontent.com/94154683/197690242-c3a3e2e2-9150-45ba-a9c3-5fb35ad47407.png)
 
 
-## RESULT:
-Thus feature transformation is done for the given dataset.
+
+## OUTPUT
+
+![op1](https://user-images.githubusercontent.com/112301582/233019538-957ad6bb-75f1-4ddc-95e5-809f1c58294e.png)
+
+![op2](https://user-images.githubusercontent.com/112301582/233019568-fe8890db-39a2-4983-b95d-ac59bfd2b882.png)
+
+![op3](https://user-images.githubusercontent.com/112301582/233019599-36324a7e-6f28-4140-8b26-301b8b6c9f39.png)
+
+![op4](https://user-images.githubusercontent.com/112301582/233019631-ad209ce4-981a-4016-b706-ea0e30650a70.png)
+
+![op5](https://user-images.githubusercontent.com/112301582/233019700-ad5ca9a9-5488-4b46-bd2c-da4bde84be67.png)
+
+![op6](https://user-images.githubusercontent.com/112301582/233019801-b1576933-a191-4f2a-ba64-affeffb8f911.png)
+
+![op7](https://user-images.githubusercontent.com/112301582/233019857-8a51d18b-ecb4-4349-9628-459351d5b201.png)
+
+![op8](https://user-images.githubusercontent.com/112301582/233019938-36d96b49-2dc6-4f03-841a-1d9e0aff4347.png)
+
+![op9](https://user-images.githubusercontent.com/112301582/233019988-892a04e7-b7af-47b9-a52b-709e9e491bf6.png)
+
+![op10](https://user-images.githubusercontent.com/112301582/233020043-b6bdbb5d-8a22-4100-b188-af63217dc34d.png)
+
+![op11](https://user-images.githubusercontent.com/112301582/233020114-a61ca978-cae8-46a3-a229-1fa0951a1353.png)
+
+## RESULT
+Thus feature transformation on the given dataset was performed and results were stored to dataset.
